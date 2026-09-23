@@ -3,23 +3,28 @@ const path = require("path");
 const db = require("../config/db");
 
 async function runMigration() {
-  console.log("Starting database migration for orders...");
+  console.log("Starting database migrations...");
   try {
-    const sqlPath = path.join(__dirname, "migrations", "create_orders_tables.sql");
-    const sqlContent = fs.readFileSync(sqlPath, "utf8");
+    const migrationsDir = path.join(__dirname, "migrations");
+    const files = fs.readdirSync(migrationsDir).filter((file) => file.endsWith(".sql"));
 
-    // Split SQL by statements ignoring comments
-    const statements = sqlContent
-      .split(";")
-      .map((stmt) => stmt.trim())
-      .filter((stmt) => stmt.length > 0);
+    for (const file of files) {
+      console.log(`\nRunning migration file: ${file}`);
+      const sqlPath = path.join(migrationsDir, file);
+      const sqlContent = fs.readFileSync(sqlPath, "utf8");
 
-    for (const stmt of statements) {
-      console.log("Executing SQL statement...");
-      await db.query(stmt);
+      const statements = sqlContent
+        .split(";")
+        .map((stmt) => stmt.trim())
+        .filter((stmt) => stmt.length > 0);
+
+      for (const stmt of statements) {
+        await db.query(stmt);
+      }
+      console.log(`Finished: ${file}`);
     }
 
-    console.log("Migration completed successfully! Tables 'orders' and 'order_items' are ready.");
+    console.log("\nAll migrations completed successfully!");
     process.exit(0);
   } catch (error) {
     console.error("Migration failed with error:", error);
