@@ -10,7 +10,7 @@ router.use(protect);
 router.post("/buy-now", orderController.buyNow);
 
 // 2. GET ORDER HISTORY (PAGINATED)
-router.get("/", orderController.getOrderHistory);
+router.get("history", orderController.getOrderHistory);
 
 // 3. GET SINGLE ORDER DETAILS
 router.get("/:orderId", orderController.getOrderDetails);
