@@ -13,21 +13,21 @@ router.get("/check", addressController.checkAddress);
 router.get("/default", addressController.getDefaultAddress);
 
 // 3. Add new address (matches the Add Address UI)
-router.post("/", addressController.addAddress);
+router.post("/addresscreat", addressController.addAddress);
 
 // 4. Get all saved addresses for user
-router.get("/", addressController.getAllAddresses);
+router.get("/addressview", addressController.getAllAddresses);
 
 // 5. Get single address by id
-router.get("/:id", addressController.getAddressById);
+router.get("/addressview/:id", addressController.getAddressById);
 
 // 6. Update address by id
-router.put("/:id", addressController.updateAddress);
+router.put("/addressupdate/:id", addressController.updateAddress);
 
 // 7. Set specific address as default
-router.patch("/:id/default", addressController.setDefaultAddress);
+router.patch("/addressdefault/:id/default", addressController.setDefaultAddress);
 
 // 8. Delete address
-router.delete("/:id", addressController.deleteAddress);
+router.delete("/addressdelete/:id", addressController.deleteAddress);
 
 module.exports = router;
